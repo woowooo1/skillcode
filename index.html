@@ -1,51 +1,94 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>던파 스킬코드</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171923">
+  <title>던파 다크나이트 스킬코드</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 28px 16px; background: #f3f4f6;
+      color: #20232a; font-family: system-ui, -apple-system, "Malgun Gothic", sans-serif;
+    }
+    main { width: 100%; max-width: 760px; margin: 0 auto; }
+    h1 { margin: 0 0 8px; font-size: 26px; }
+    .intro { margin: 0 0 24px; color: #626875; font-size: 14px; }
+    .skill {
+      background: #fff; border: 1px solid #e0e3e8; border-radius: 14px;
+      padding: 20px; margin: 0 0 16px; box-shadow: 0 2px 8px #1118270a;
+    }
+    .skill h2 { margin: 0 0 12px; font-size: 19px; }
+    textarea {
+      display: block; width: 100%; min-height: 112px; resize: vertical;
+      padding: 12px; border: 1px solid #d7dbe2; border-radius: 9px;
+      background: #f8f9fb; color: #333; font: 12px/1.55 ui-monospace, SFMono-Regular, Consolas, monospace;
+      overflow-wrap: anywhere;
+    }
+    button {
+      margin-top: 12px; width: 100%; padding: 12px 16px; border: 0;
+      border-radius: 9px; background: #242a36; color: white;
+      font-size: 15px; font-weight: 700; cursor: pointer;
+    }
+    button:hover { background: #fcc97c; }
+    button:focus-visible { outline: 3px solid #8bb8ff; outline-offset: 2px; }
+    .status { min-height: 20px; margin: 8px 0 0; color: #18794e; font-size: 13px; }
+    footer { color: #858b96; font-size: 12px; text-align: center; margin-top: 20px; }
+  </style>
 </head>
 <body>
-<button onclick="openCopyWindow()">스킬코드 복사</button>
+  <main>
+    <h1>던파 다크나이트 스킬코드</h1>
+    <p class="intro">스킬코드를 확인하고 버튼을 눌러 복사하세요.</p>
 
-<script>
-function openCopyWindow() {
-    const code = "여기에_긴_스킬코드";
+    <section class="skill">
+      <h2>80 다크나이트</h2>
+      <textarea id="code80" readonly spellcheck="false">eJylzbFK2wEABvHfl/QfEjFJhwjRDjoFJBKCUKjioOBgUkTM7O6goFDUqK/ToTjU1UEcfCU3TVBE38CDg9vuqVJT/mP8m6j2//+7P7j7+1jua6bQSD311EzNRb57sWBiLs/aknn7OoY6BjoZWc6GpGY5h7pZ07Wim0pmsi1ZlJT07OlnR3ImObGUH1rafqYpGqIuZsU3cSu5EaeSI8mWZF2y6ld2JZuSluRBHEt6kqqkeHfCQEYyZCrlEZP30jh3YezSlWsf3NrBHirnil1nFpVMXCiOHSlUTY0VW3o2tYxcKratW3WikSvFoRU1bQPXShtOPVuzb+gFNyp5QDOvn8Mv8fQGzYYyLQ==</textarea>
+      <button type="button" data-copy="code80">80 다크나이트 코드 복사</button>
+      <p class="status" id="status80" aria-live="polite"></p>
+    </section>
 
-    const win = window.open(
-        "",
-        "SkillCopy",
-        "width=420,height=230,resizable=no"
-    );
+    <section class="skill">
+      <h2>45 다크나이트</h2>
+      <textarea id="code45" readonly spellcheck="false">eJylzbFKWwEARuHvT3ovSWmSDhFSOwgOAYmEIHRQHBQcTEQkzu4OCgpFjfo6HcRBV4fi0FdyMwktom/QAwfOdl7KuupPkz2iNni4+3309OtPdaCVQjONNFI3txD5amrRzIJXHck3Y92MdA11c2jFpqRuJcd61vWs6qXMZzuSJUlFPwcG2TXIhTJnlvNdW8ePtERTNMQX8Uk8Su7FueREsi3ZkKxJ9iVbkrbkWZxK+pKapHhzJEOZMmMu1SHjt9K8dGXi2o1b7zzaxQHKS8W2tr6KoSvFqR1bauYmihMbLpwZu1bsKyw5N3KjOFa3qqOZW5VNa14dmlk3xb0yz2jl78fwv3j5B6hCMh8=</textarea>
+      <button type="button" data-copy="code45">45 다크나이트 코드 복사</button>
+      <p class="status" id="status45" aria-live="polite"></p>
+    </section>
 
-    if (!win) {
-        alert("팝업이 차단되었습니다.");
-        return;
+    <footer>다크나이트 스킬코드 </footer>
+  </main>
+
+  <script>
+    async function copyCode(textareaId, statusId, button) {
+      const value = document.getElementById(textareaId).value;
+      const status = document.getElementById(statusId);
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(value);
+        } else {
+          const area = document.getElementById(textareaId);
+          area.focus();
+          area.select();
+          area.setSelectionRange(0, area.value.length);
+          const ok = document.execCommand("copy");
+          if (!ok) throw new Error("copy failed");
+          window.getSelection()?.removeAllRanges();
+        }
+        status.textContent = "복사 완료!";
+        const original = button.textContent;
+        button.textContent = "복사 완료!";
+        window.setTimeout(() => { button.textContent = original; }, 1600);
+      } catch (error) {
+        status.textContent = "자동 복사에 실패했습니다. 코드 영역을 선택해 직접 복사해 주세요.";
+      }
     }
 
-    win.document.write(`
-        <html>
-        <meta charset="UTF-8">
-        <body style="font-family:sans-serif;padding:15px;">
-            <h3>스킬코드 복사</h3>
-            <textarea id="code"
-              style="width:100%;height:75px;"></textarea>
-            <button id="copy">복사하기</button>
-            <script>
-                document.getElementById('code').value =
-                    ${JSON.stringify("여기에_긴_스킬코드")};
-
-                document.getElementById('copy').onclick =
-                    async function() {
-                        await navigator.clipboard.writeText(
-                            document.getElementById('code').value
-                        );
-                        this.textContent = '복사 완료!';
-                    };
-            <\/script>
-        </body>
-        </html>
-    `);
-}
-</script>
+    document.querySelectorAll("[data-copy]").forEach(button => {
+      button.addEventListener("click", () => {
+        const id = button.dataset.copy;
+        copyCode(id, id === "code80" ? "status80" : "status45", button);
+      });
+    });
+  </script>
 </body>
 </html>
